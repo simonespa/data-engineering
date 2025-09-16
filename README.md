@@ -4,48 +4,34 @@ This is a playground repository for data engineering tasks.
 
 ## Get started
 
-Export the Airflow home environment variable and get the python version
+Initialise and activate the Python virtual environment using [uv](https://docs.astral.sh/uv/)
 
+```sh
+uv venv
+source .venv/bin/activate
 ```
+
+Export the Airflow home directory and disable the demo DAGS
+
+```sh
 export AIRFLOW_HOME=$(pwd)/airflow
-PYTHON_VERSION=$(python --version | cut -d " " -f 2 | cut -d "." -f 1-2)
+export AIRFLOW__CORE__LOAD_EXAMPLES=False
 ```
 
-Install the python environment with the required packages and python version manually
+Install Apache Airflow
 
-```
-conda create --name data-engineering python=${PYTHON_VERSION} -y
-conda activate data-engineering
-conda install apache-airflow -y
-conda env export > environment.yaml
-```
+```sh
+AIRFLOW_VERSION=3.0.6
+PYTHON_VERSION="$(python -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
+CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
 
-Or install the python environment with the required packages and python version from the YAML file
-
-```
-conda env create -f environment.yaml
+uv pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
 ```
 
-Initialise the SQLlite database for Airflow
+Run Airflow Standalone which initializes the database, creates a user, and starts all components.
 
-```
-airflow db migrate
-```
-
-Change the `load_examples` settings under the `[core]` section in `airflow/airflow.cfg` to `False`.
-
-Start the server, scheduler and trigger in daemon mode
-
-```
-airflow api-server --port 8080 -D
-airflow scheduler -D
-airflow triggerer -D
+```sh
+airflow standalone
 ```
 
-Start the dag-processor in the foreground (in daemon mode it doesn't show the dags in the UI).
-
-```
-airflow dag-processor
-```
-
-Go to http://localhost:8080, then copy the admin password from the `simple_auth_manager_passwords.json.generated` to login with the username `admin`.
+Access the Airflow UI visiting http://localhost:8080 in your browser and log in with the `admin` username and the generated password that you can copy from the `airflow/simple_auth_manager_passwords.json.generated` file.
