@@ -6,7 +6,7 @@ This is a playground repository for data engineering tasks.
 
 This installation assumes familiarity with [Docker](https://docs.docker.com/get-started/) and [Docker Compose](https://docs.docker.com/get-started/workshop/08_using_compose/). Make sure to have [Docker Community Edition (CE)](https://docs.docker.com/engine/install/) and [Docker Compose v2](https://docs.docker.com/compose/install/) installed first.
 
-Build the image
+Build the custom image
 
 ```sh
 docker compose build
