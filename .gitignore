@@ -1,4 +1,2 @@
 __pycache__/
-/airflow/*
-!/airflow/dags
-!/airflow/data
+/logs

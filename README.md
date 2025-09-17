@@ -4,34 +4,24 @@ This is a playground repository for data engineering tasks.
 
 ## Get started
 
-Initialise and activate the Python virtual environment using [uv](https://docs.astral.sh/uv/)
+Fetch the `docker-compose.yaml` file
 
 ```sh
-uv venv
-source .venv/bin/activate
+curl -LfO 'https://airflow.apache.org/docs/apache-airflow/3.0.6/docker-compose.yaml'
 ```
 
-Export the Airflow home directory and disable the demo DAGS
+Initialize the database and create the default account with username `airflow` and password `airflow`
 
 ```sh
-export AIRFLOW_HOME=$(pwd)/airflow
-export AIRFLOW__CORE__LOAD_EXAMPLES=False
+docker compose up airflow-init
 ```
 
-Install Apache Airflow
+Start all services
 
 ```sh
-AIRFLOW_VERSION=3.0.6
-PYTHON_VERSION="$(python -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
-CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
-
-uv pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
+docker compose up
 ```
 
-Run Airflow Standalone which initializes the database, creates a user, and starts all components.
+Access the webserver at http://localhost:8080
 
-```sh
-airflow standalone
-```
-
-Access the Airflow UI visiting http://localhost:8080 in your browser and log in with the `admin` username and the generated password that you can copy from the `airflow/simple_auth_manager_passwords.json.generated` file.
+Read more at https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html
