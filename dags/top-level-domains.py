@@ -16,5 +16,12 @@ with DAG(
   ) as dag:
     task1 = BashOperator(
       task_id='download_data',
-      bash_command='pwd'
+      bash_command='wget -c https://datahub.io/core/top-level-domain-names/r/top-level-domain-names.csv.csv -O /opt/airflow/data/top-level-domain-names.csv'
     )
+
+    task2 = BashOperator(
+      task_id='read_data',
+      bash_command='cat /opt/airflow/data/top-level-domain-names.csv'
+    )
+
+    task1 >> task2
