@@ -12,6 +12,12 @@ Build the custom image
 docker compose build
 ```
 
+Set the expected environment variables
+
+```sh
+export AIRFLOW_UID=$(id -u)
+```
+
 Initialize the database and create the default account with username `airflow` and password `airflow`
 
 ```sh
