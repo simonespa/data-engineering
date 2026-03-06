@@ -4,7 +4,7 @@ from airflow.sdk import DAG
 
 with DAG(
   dag_id='setup_postgres',
-  description='Setup the Postgres database by adding the required table for analysis',
+  description='Setup the Postgres database by adding the required tables for analysis',
   start_date=datetime.today(),
   schedule=None,
   default_args={
